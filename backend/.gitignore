@@ -1,0 +1,39 @@
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.cover
+*.log
+
+# Virtual environment directories
+venv/
+env/
+*.env
+
+# Django-specific (if you're using it in some parts of your project)
+*.sqlite3
+db.sqlite3
+
+# FastAPI-specific (you can add more if needed)
+*.pkl  # If you're saving models or other serialized files
+*.db   # If you're saving databases locally
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Docker-related
+Dockerfile
+docker-compose.yml
+
+# Dependency directory
+*.egg-info/
+
+# Environment files
+.env

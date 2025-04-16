@@ -4,9 +4,3 @@ from typing import Optional
 
 class DeviceModel(BaseModel):
     name: str
-    deviceId: str
-    
-    
-class ReadingModel(BaseModel):
-    deviceId: str
-    data: dict
