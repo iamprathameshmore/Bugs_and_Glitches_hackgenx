@@ -1,0 +1,7 @@
+mq135,temperature,humidity,label
+150,25,45,Good
+300,30,50,Moderate
+600,35,55,Poor
+180,24,40,Good
+350,32,52,Moderate
+700,38,60,Poor

@@ -8,5 +8,5 @@ class DeviceModel(BaseModel):
     
     
 class ReadingModel(BaseModel):
-    moduelName:str
-    value:str
+    deviceId: str
+    data: dict
