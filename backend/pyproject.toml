@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "hackgenx"
+version = "0.1.0"
+description = "Smart Pollution Control & Monitoring"
+authors = ["Prathamesh More <iamprathameshmore07@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95"
+motor = "^2.5"
+pydantic = "^1.9"
+python-dotenv = "^0.21.0"
+uvicorn = "^0.18.2"
