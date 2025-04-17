@@ -32,6 +32,8 @@ class _ReadingDetailsPageState extends State<ReadingDetailsPage> {
         headers: {'Content-Type': 'application/json'},
       );
 
+      print(response);
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {

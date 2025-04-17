@@ -11,7 +11,7 @@ class QRScannerPage extends StatefulWidget {
   State<QRScannerPage> createState() => _QRScannerPageState();
 }
 
-class _QRScannerPageState extends State<QRScannerPage> {
+class _QRScannerPageState extends State<QRScannerPage> with RouteAware {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   bool scanned = false;
@@ -22,6 +22,13 @@ class _QRScannerPageState extends State<QRScannerPage> {
     super.reassemble();
     controller?.pauseCamera();
     controller?.resumeCamera();
+  }
+
+  @override
+  void didPopNext() {
+    scanned = false;
+    controller?.resumeCamera();
+    super.didPopNext();
   }
 
   void _onQRViewCreated(QRViewController ctrl) {
@@ -41,12 +48,16 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
         String id = _extractId(rawData);
         await _storeId(id);
-        Navigator.push(
+
+        await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ReadingDetailsPage(deviceId: id),
           ),
         );
+
+        scanned = false;
+        controller?.resumeCamera();
       }
     });
   }

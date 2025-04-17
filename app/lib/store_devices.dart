@@ -25,6 +25,14 @@ class _StoredIDsPageState extends State<StoredIDsPage> {
     });
   }
 
+  Future<void> _deleteId(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      ids.remove(id);
+      prefs.setStringList('scanned_ids', ids);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +46,18 @@ class _StoredIDsPageState extends State<StoredIDsPage> {
                   final id = ids[index];
                   return ListTile(
                     title: Text("Device ID: $id"),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red),
+                          onPressed: () {
+                            _confirmDelete(context, id);
+                          },
+                        ),
+                        Icon(Icons.chevron_right),
+                      ],
+                    ),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -50,6 +69,30 @@ class _StoredIDsPageState extends State<StoredIDsPage> {
                   );
                 },
               ),
+    );
+  }
+
+  void _confirmDelete(BuildContext context, String id) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text("Delete Device ID"),
+            content: Text("Are you sure you want to delete this ID?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  _deleteId(id);
+                  Navigator.of(context).pop();
+                },
+                child: Text("Delete", style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
     );
   }
 }
