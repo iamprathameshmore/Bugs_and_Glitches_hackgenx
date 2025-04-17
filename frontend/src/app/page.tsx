@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/table';
 import { toast } from 'sonner';
 import { EyeIcon, TrashIcon } from 'lucide-react';
+import { IDevice } from '@/types';
 
 export default function Home() {
   const [devices, setDevices] = useState([]);
@@ -30,7 +31,7 @@ export default function Home() {
 
   const handleGetDevices = async () => {
     try {
-      const res = await fetch('http://localhost:4213/api/devices');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/devices`);
       if (!res.ok) throw new Error('Failed to fetch devices');
       const data = await res.json();
       setDevices(data);
@@ -47,7 +48,7 @@ export default function Home() {
     if (!newDeviceName.trim()) return;
 
     try {
-      const res = await fetch('http://localhost:4213/api/devices', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/devices`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newDeviceName }),
@@ -73,7 +74,7 @@ export default function Home() {
 
   const handleDeleteDevice = async (deviceId: string) => {
     try {
-      const res = await fetch(`http://localhost:4213/api/devices/${deviceId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/devices/${deviceId}`, {
         method: 'DELETE',
       });
 
@@ -153,7 +154,7 @@ export default function Home() {
           </TableHeader>
           <TableBody>
             {devices.length > 0 ? (
-              devices.map((device: any) => (
+              devices.map((device: IDevice) => (
                 <TableRow key={device._id} className="border-t">
                   <TableCell className="px-4 py-2">{device.name}</TableCell>
                   <TableCell className="px-4 py-2">{device.status ?? 'Active'}</TableCell>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import QRCode from 'qrcode';
 import {
   LineChart,
@@ -16,17 +16,19 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { IDevice, IReading } from '@/types';
+import Image from 'next/image';
 
 export default function DeviceDetailPage() {
   const { id } = useParams();
-  const [device, setDevice] = useState<any>(null);
-  const [readings, setReadings] = useState<any[]>([]);
+  const [device, setDevice] = useState<IDevice>();
+  const [readings, setReadings] = useState<IReading[]>([]);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 
   const fetchDevice = async () => {
     try {
-      const res = await fetch(`http://localhost:4213/api/devices/${id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/devices/${id}`);
       if (!res.ok) throw new Error('Failed to fetch device');
       const data = await res.json();
       setDevice(data);
@@ -38,7 +40,7 @@ export default function DeviceDetailPage() {
 
   const fetchReadings = async () => {
     try {
-      const res = await fetch(`http://localhost:4213/api/readings/${id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/readings/${id}`);
       if (!res.ok) throw new Error('Failed to fetch readings');
       const data = await res.json();
       setReadings(data.readings);
@@ -83,7 +85,7 @@ export default function DeviceDetailPage() {
             <p><strong>ID:</strong> {device._id}</p>
             <p><strong>Name:</strong> {device.name}</p>
             <p><strong>Status:</strong> {device.status ?? 'Active'}</p>
-            <p><strong>API key:</strong> https://localhost:4213/api/readings/{device._id}</p>
+            <p><strong>API key:</strong> {process.env.NEXT_PUBLIC_API_URL}/api/readings/{device._id}</p>
           </div>
         ) : (
           <p className="text-zinc-400">Loading device info...</p>
@@ -102,7 +104,7 @@ export default function DeviceDetailPage() {
           </DialogHeader>
           {qrDataUrl && (
             <>
-              <img src={qrDataUrl} alt="QR Code" className="mx-auto w-48 h-48 rounded-md shadow-lg" />
+              <Image src={qrDataUrl} alt="QR Code" className="mx-auto w-48 h-48 rounded-md shadow-lg" />
               <Button 
                 onClick={downloadQRCode} 
                 className="mt-4 w-full bg-green-100 hover:bg-green-200 text-green-700"
@@ -146,7 +148,7 @@ export default function DeviceDetailPage() {
         </h2>
         {readings.length > 0 ? (
           <div className="space-y-3">
-            {readings.map((reading: any, index: number) => (
+            {readings.map((reading: IReading, index: number) => (
               <div
                 key={index}
                 className="bg-zinc-200 p-3 rounded-md shadow-sm min-w-max flex flex-wrap gap-6 items-start"
