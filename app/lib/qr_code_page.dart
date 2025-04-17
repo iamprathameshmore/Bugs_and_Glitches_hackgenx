@@ -53,7 +53,9 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://your-api.com/api/use-id'), // Replace this
+        Uri.parse(
+          'https://bugs-and-glitches-hackgenx.onrender.com/api/readings/$id',
+        ),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'id': id}),
       );
