@@ -1,0 +1,45 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build directory
+dist/
+
+# Coverage reports from testing
+coverage/
+
+# IDE or editor specific files
+.vscode/
+.idea/
+
+# Temporary files
+*.log
+*.swp
+*.bak
+
+# Debugger directory
+*.debug/
+
+# Package-lock files (optional, depending on your workflow)
+package-lock.json
+yarn.lock
+
+# Jest configuration or test output (if using Jest)
+jest-test/
+
+# Ignore all the generated files for frontend projects (if any)
+public/
+
+# Miscellaneous build artifacts
+*.tgz

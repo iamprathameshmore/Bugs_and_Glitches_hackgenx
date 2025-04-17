@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from controller.api import apiRouter
 from fastapi.middleware.cors import CORSMiddleware
+from controller.model_api import model_router
 
 app = FastAPI()
 
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(apiRouter,prefix='/api')
+app.include_router(model_router,prefix='/ai')
 
 
 @app.get('/')

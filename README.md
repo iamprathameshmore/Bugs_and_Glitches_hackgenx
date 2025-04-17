@@ -17,7 +17,28 @@ This project integrates IoT devices, AI-powered pollution data analysis, real-ti
 - **Mobile App**: https://github.com/iamprathameshmore/Bugs_and_Glitches_hackgenx/tree/dev/app/release
 
 ## Screenshots
-- **Web Dashboard**: ![Web Screenshot](assets/web.png) 
-![Web Screenshot](assets/web-device.png)
-- **Mobile App**: ![Mobile Screenshot](path/to/mobile-screenshot.png)
-- **IoT Device**: ![IoT Screenshot](path/to/iot-screenshot.png)
+- **Web Dashboard**: ![Web Screenshot](assets/web/web.png) 
+![Web Screenshot](assets/web/web-device.png)
+![Web Screenshot](assets/web/web-qr-code.png)
+
+- **Mobile App**:
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <img src="assets/app/scnner_screen.jpg" alt="Mobile Screenshot 1">
+    <img src="assets/app/device_ids_screen.jpg" alt="Mobile Screenshot 2">
+</div>
+
+- **IoT Device**:
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <img src="assets/iot/iot_device.jpg" alt="IoT Screenshot 1">
+    <img src="assets/iot/iot_device_2.jpg" alt="IoT Screenshot 2">
+</div>
+
+<div style="text-align: center; margin-top: 20px; padding: 10px;">
+    <p>Created by <strong>@iamprathameshmore
+    </strong></p>
+    <p>
+        <a href="https://www.linkedin.com/in/iamprathamesh" target="_blank" style="color: #0077b5; text-decoration: none;">LinkedIn</a> 
+        | 
+        <a href="mailto:iamprathamesh@example.com" style="text-decoration: none;">Email</a>
+    </p>
+</div>

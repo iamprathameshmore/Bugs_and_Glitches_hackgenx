@@ -1,9 +1,12 @@
-import 'dart:convert';
+import 'package:app/readings_details.dart';
+import 'package:app/store_devices.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
-import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QRScannerPage extends StatefulWidget {
+  const QRScannerPage({super.key});
+
   @override
   State<QRScannerPage> createState() => _QRScannerPageState();
 }
@@ -37,7 +40,13 @@ class _QRScannerPageState extends State<QRScannerPage> {
         }
 
         String id = _extractId(rawData);
-        await _callApi(id);
+        await _storeId(id);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ReadingDetailsPage(deviceId: id),
+          ),
+        );
       }
     });
   }
@@ -48,29 +57,13 @@ class _QRScannerPageState extends State<QRScannerPage> {
     return uri?.pathSegments.last ?? data;
   }
 
-  Future<void> _callApi(String id) async {
-    setState(() => isLoading = true);
+  Future<void> _storeId(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final ids = prefs.getStringList('scanned_ids') ?? [];
 
-    try {
-      final response = await http.post(
-        Uri.parse(
-          'https://bugs-and-glitches-hackgenx.onrender.com/api/readings/$id',
-        ),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'id': id}),
-      );
-
-      final message =
-          response.statusCode == 200
-              ? "✅ Success: ${jsonDecode(response.body)['message']}"
-              : "❌ Failed: ${response.statusCode}";
-
-      _showSnackBar(message);
-    } catch (e) {
-      _showSnackBar("⚠️ Error: $e");
-    } finally {
-      setState(() => isLoading = false);
-      _retryScan();
+    if (!ids.contains(id)) {
+      ids.add(id);
+      await prefs.setStringList('scanned_ids', ids);
     }
   }
 
@@ -98,7 +91,21 @@ class _QRScannerPageState extends State<QRScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Scan QR")),
+      appBar: AppBar(
+        title: Text("Scan QR"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.list),
+            tooltip: "View Scanned IDs",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => StoredIDsPage()),
+              );
+            },
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
@@ -108,7 +115,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
               margin: EdgeInsets.only(top: 20),
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black12,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
